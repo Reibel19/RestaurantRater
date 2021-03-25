@@ -1,6 +1,7 @@
 ﻿using RestaurantRater.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -89,6 +90,21 @@ namespace WebApplication1.Controllers
                 _db.Entry(restaurant).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            return View(restaurant);
+        }
+
+        // GET: Restaurant/Details/{id}
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Restaurant restaurant = _db.Restaurants.Find(id);
+            if (restaurant == null)
+            {
+                return HttpNotFound();
             }
             return View(restaurant);
         }
